@@ -1,0 +1,33 @@
+Main Features:
+
+	- Moving around
+	- Player can notice aberrations, differences between abrahams perfect world and the real world
+	- Compromises make the aberrations go away, but abraham is only willing to make 5 compromises at a time
+	- too many aberrations will make abrahams head hurt
+
+How aberrations help solving a crime?
+
+Case 1: The Stolen Painting
+Upon inspection of the crime scene, three aberrations become apparent: 
+	- A vase nearby is slightly misplaced 
+	- A painting nearby is slightly crooked
+
+	- talking to the museum director gives these clues:
+		- The Janitor is a drunk, which is why the other art pieces might be offset
+		- the director gives truthful answers to museum opening hours etc
+		You can find the janitor, he's a conservative Muslim and doesn't ever drink
+
+	- The Janitor is hidden in another part of the art gallery that can only be accessed with a keypad. The keypad shows aberrations on three numbers, combine them to access.
+		- 
+
+
+	- Asking one of the visitors what he thinks, hell tell you that he actually came here to throw soup at the painting, now it's gone and he's stuck with a backpack full of soup. You can ask him for some. Provided you give him a container he'll pour soup into it.
+You can ask a beggar outside if he saw something, he'll just respond "So Hungry..". If you give him soup, he'll gladly eat it and answer your questions. In Abrahams perfect world, the beggar is not there. In his place, a man in a business suit and a briefcase is waiting for a taxi. Abraham can talk to him as soon as he hands him a coffee. After a brief conversation, the successful man will say smething like "My wife and child are everything to me. I'd be lost without them. Some days I can only get myself to get out of bed for their sake. They never died in a car crash."
+
+This will unlock a new compromise: "Fate was cruel on this man."
+
+If the compromise is applied, Abraham can talk to the beggar. If given soup, the beggar will reveal that everything seemed normal on that day except that the co-courator was late for work and seemed to be in a hurry. 
+
+
+
+

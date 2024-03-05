@@ -1,0 +1,23 @@
+Scene: Murder in the Kitchen
+_Slow fade in from white_
+Abraham: dreamyly, smiling to himself: "In my perfect world, every surface is prestine. Pictures align perfectly with the parallel walls around them, and on the windows you woun't find a speck of dirt. Everyone washes their hands for 30 seconds after going to the toilet. Nobody ever sneezes."
+
+_crime scene investigator sneezes_, jump cut to the real kitchen, trash on the counters, dead guy in a chair. Blood is slowly dripping on the floor.
+
+Abraham: "Unfortunately, real surfaces usually stick and real people barely ever wash their hands. My therapist says I was born with a special gift, to see the world as it should be.."
+
+_player is urged to press the switch_, if he does, the scene goes to a world in which the dead guy is eating cereal on the table.
+
+"I don't know. It dosn't feel like a gift to me. These imperfections, every aberration from how things should be... it just gives me a headache."
+
+"Here's a trick my therapist told me: It's called a Rationalization."
+
+The player is urged to inspect the guy's face. He has a scruffy beard and unkempt hair. A Rationalization pops up: "Jeremia Bright was a messy person"
+
+If the compromise is accepted, most aberrations (trash, crooked picture) go away
+
+32 Bit
+0 
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+|[ Normal Map X 15 Bit       ]|[ Normal Map X 15 Bit       ]|[Outline 2 Bit]
+
