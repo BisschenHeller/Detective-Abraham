@@ -24,7 +24,7 @@ public class AbrahamAnimationController : MonoBehaviour
         if (pos_x < -0.55) return 0.4f;
         if (pos_x < -0.25) return 0.7f;
         if (pos_x < -0.15) return 0.8f;
-        else return 0.7f;
+        else return 0.6f;
     }
 
     float GetLowerClamp(float pos_x)
