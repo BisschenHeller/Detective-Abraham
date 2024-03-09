@@ -81,7 +81,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - aberration_threshold: 0.25
+    - aberration_threshold: 0.2
     - aberrations_linger: 0
     - blinking: 1
     - eyes_closed: 1

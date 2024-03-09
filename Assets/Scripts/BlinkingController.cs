@@ -16,7 +16,5 @@ public class BlinkingController : MonoBehaviour
         m_MeshRenderer.material.SetFloat("eyes_closed", Input.GetAxis("Eyes_Closed"));
         m_MeshRenderer.material.SetFloat("aberrations_linger", Input.GetAxis("Aberrations_Linger"));
         m_MeshRenderer.material.SetFloat("timer", Time.fixedTime);
-
-        Debug.Log(Input.GetAxis("Aberrations_Linger"));
     }
 }

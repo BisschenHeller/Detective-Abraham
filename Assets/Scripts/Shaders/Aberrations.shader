@@ -9,11 +9,6 @@ Shader "Hidden/Aberrations"
         eyes_closed ("Eyes Closed", float) = 0.0
         timer ("Runtime", float) = 0.0
         aberrations_linger ("How Long Aberrations Linger", float) = 0.0
-        
-        // Inpector Properties
-        flackern_klein ("Flackern klein", float) = 20
-        flackern_gross ("Flackern gross", float) = 1
-        flackern_menge ("Flackern Multiplikator", float) = 0.5
     }
     SubShader
     {
@@ -58,10 +53,6 @@ Shader "Hidden/Aberrations"
             float eyes_closed;
             float timer;
 
-            float flackern_klein;
-            float flackern_gross;
-            float flackern_menge;
-
             //float gamma_correct(float channel) { // I am doing this because wikipedia said so, I don't even know if the input is gamma compressed (or what that means)
             //    return pow(channel, 2.2);
             //}
@@ -85,10 +76,17 @@ Shader "Hidden/Aberrations"
                     abs(col1.z - col2.z) > aberration_threshold;
             }
 
+            float grosses_ease(float x) {
+                return 0.4 * (cos(x * 3.14159) + 1);
+            }
+
+            float kleines_flackern(float x) {
+                float amplitude = 0.005;
+                return sin(80*pow(x,0.3)*3.14159) * amplitude * (1.0-x);
+            }
+
             float flackern(float x) {
-                float grosses_ease = cos(x * 3.14159) + 1; // Eases from 1 to 0
-                float kleines_flackern = clamp(sin(40*x*3.14159) * 0.5 * (1.0-x),0,1); // Erzeugt ein kleines Flackern
-                return 0.5 * (grosses_ease - kleines_flackern);
+                return grosses_ease(x) - kleines_flackern(x);
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -97,13 +95,23 @@ Shader "Hidden/Aberrations"
                 fixed4 perfect_sample = tex2D(Perfect_World_Render, i.uv);
                 fixed4 real_sample = tex2D(Real_World_Render, i.uv);
 
-                // Using relative luminance as some sort of measure to compare the two renders
+                // Tap nearby texture to get vibration effect
+                // fixed4 offset_sample = tex2D(Real_World_Render, float2(i.uv.x + kleines_flackern(1-aberrations_linger), i.uv.y)); Works, could be better
+
+                float kleines_f = kleines_flackern(1-aberrations_linger);
+
+                fixed4 offset_sample = (1 - aberrations_linger * 0.5) * tex2D(Real_World_Render, float2(i.uv.x + kleines_f, i.uv.y)) + 
+                                       aberrations_linger * 0.5 * tex2D(Perfect_World_Render, float2(i.uv.x + kleines_f, i.uv.y));
                 
+                if (kleines_f < 0) {
+                    offset_sample.xy *= 0.5 * (1-aberrations_linger) + (kleines_f+0.5);
+                } else if (kleines_f > 0) {
+                    offset_sample.yz *= 0.5 * (1-aberrations_linger) + (kleines_f+0.5);
+                }
 
-                // Flackern
-                fixed3 aberration_addition = (differnt(perfect_sample.xyz, real_sample.xyz)) * fixed3(1, 0, 0) * flackern(1-aberrations_linger);
+                bool diff = differnt(perfect_sample.xyz, real_sample.xyz); // Determines wheter or not the pixel is affected by an aberration
 
-                fixed3 real_sample_with_aberrations = real_sample + aberration_addition;
+                fixed3 real_sample_with_aberrations = (1-diff) * real_sample + diff*(offset_sample);
 
                 
                 // Calculating a gradient in shape of an eye by bashing two sine waves together
