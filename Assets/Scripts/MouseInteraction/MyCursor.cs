@@ -70,8 +70,6 @@ public class MyCursor : MonoBehaviour
 
         relative_mouse_pos *= 2;
         relative_mouse_pos -= new Vector2(1, 1);
-
-        Debug.Log(relative_mouse_pos);
         
         old_mouse_pos = mouse_pos;
         

@@ -64,11 +64,11 @@ Shader "Hidden/Aberrations"
             //}
 
             bool unteres_lid(float u, float v) {
-                return (floor(v*82) / 82) < -sin(u*0.5*3.14+0.25*3.14)+1;
+                return (floor(v*108) / 108) < -sin(u*0.5*3.14+0.25*3.14)+1;
             }
 
             bool oberes_lid(float u, float v) {
-                return (floor(v*82) / 82) > sin(u*0.5*3.14+0.25*3.14);
+                return (floor(v*108) / 108) > sin(u*0.5*3.14+0.25*3.14);
             }
 
             bool differnt(fixed3 col1, fixed3 col2) {

@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
     public GameObject perfectAbraham;
