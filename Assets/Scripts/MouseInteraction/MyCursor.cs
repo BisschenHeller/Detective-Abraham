@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class MyCursor : MonoBehaviour
 {
@@ -43,47 +45,44 @@ public class MyCursor : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI subtitle = null;
 
+    [SerializeField]
+    private GameObject pen;
+
     private void Start()
     {
         old_mouse_pos = new Vector2(0, 0);
-        Cursor.visible = false;
     }
+
+    public float penSpeed = 300;
+
+    public Vector2 max_pen = new Vector2( 5, 5 );
+    public Vector2 offset_pen = new Vector2( 5, 5 );
+    public Vector2 minmax_cursor = new Vector2(5, 5);
 
     // Update is called once per frame
     void Update()
     {
         Vector2 mouse_pos = Input.mousePosition;
-        Cursor.visible = mouse_pos.x > 1920; // So that no one gets cancer
-        Vector2 movement = (mouse_pos - old_mouse_pos) * magic;
+
+        Vector2 relative_mouse_pos = new Vector2(mouse_pos.x / Camera.main.pixelWidth, mouse_pos.y / Camera.main.pixelHeight);
+        UnityEngine.Cursor.visible = relative_mouse_pos.x > 1 || relative_mouse_pos.x < 0 || relative_mouse_pos.y > 1 || relative_mouse_pos.y < 0;
+        pen.transform.localPosition = relative_mouse_pos * max_pen + offset_pen;
+
+        relative_mouse_pos *= 2;
+        relative_mouse_pos -= new Vector2(1, 1);
+
+        Debug.Log(relative_mouse_pos);
+        
         old_mouse_pos = mouse_pos;
-        transform.Translate(movement.x, movement.y, 0);
+        
+        TEST_CUBE.transform.localPosition = relative_mouse_pos * minmax_cursor;
+        TEST_CUBE.transform.localPosition += (Input.GetAxis("Aberrations_Linger") < 0.5 ? real_cam.transform.position : perfect_cam.transform.position);
+        TEST_CUBE.transform.localPosition += new Vector3(0,0,1f);
 
-        transform.localPosition = new Vector3(Mathf.Clamp(transform.localPosition.x, -9, 9), Mathf.Clamp(transform.localPosition.y,-5,5), transform.localPosition.z);
-
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            SetCursor(InteractionType.Speak);
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            SetCursor(InteractionType.Aberration);
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            SetCursor(InteractionType.LookAt);
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad0))
-        {
-            SetCursor(InteractionType.None);
-        }
-
-        Vector3 raycast_origin = (Input.GetAxis("Aberrations_Linger") < 0.5 ? real_cam.transform.position : perfect_cam.transform.position)
-            + transform.localPosition * (50.0f / 675.0f);
+        Vector3 raycast_origin = TEST_CUBE.transform.localPosition;
         raycast_origin.z = -0.5f;
 
-        TEST_CUBE.transform.position = raycast_origin;
         Debug.DrawRay(raycast_origin, new Vector3(0, 0, 0.5f), Color.red,0.01f, true);
-        
         
         if (Physics.Raycast(raycast_origin, new Vector3(0,0,1), out RaycastHit hitInfo, 10000.0f) && hitInfo.collider.gameObject.layer == 3)
         {

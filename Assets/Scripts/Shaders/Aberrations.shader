@@ -9,6 +9,7 @@ Shader "Hidden/Aberrations"
         eyes_closed ("Eyes Closed", float) = 0.0
         timer ("Runtime", float) = 0.0
         aberrations_linger ("How Long Aberrations Linger", float) = 0.0
+        notebook ("wheter or not the notebook is open", float) = 0.0
     }
     SubShader
     {
@@ -52,6 +53,7 @@ Shader "Hidden/Aberrations"
             float blinking;
             float eyes_closed;
             float timer;
+            float notebook;
 
             //float gamma_correct(float channel) { // I am doing this because wikipedia said so, I don't even know if the input is gamma compressed (or what that means)
             //    return pow(channel, 2.2);
@@ -123,6 +125,8 @@ Shader "Hidden/Aberrations"
                 fixed3 col = real_sample_with_aberrations.xyz*(1-gradient) + (gradient) * perfect_sample.xyz;
 
                 col -= gradient*fixed3(1,1,1)*(1-eyes_closed);
+
+                col -= fixed3(1,1,1) * 0.2 * notebook;
 
                 return fixed4(col, 1);
             }
