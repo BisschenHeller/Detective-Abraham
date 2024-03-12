@@ -4,6 +4,8 @@ public class CameraController : MonoBehaviour
 {
     public GameObject perfectAbraham;
 
+    public Camera other_camera;
+
     [Range(0, 0.99f)]
     public float stickiness = 0.99f;
 
@@ -13,7 +15,12 @@ public class CameraController : MonoBehaviour
         float posX = perfectAbraham.transform.localPosition.x;
         float camera_targetPos = transform.localPosition.x;
 
-        if (posX > -0.6)
+        if (posX < -2.6)
+        {
+            // Elevator
+            camera_targetPos = -2.7f;
+        } 
+        else if (posX > -0.6)
         {
             // Inside Joshua's kitchen
             camera_targetPos = 0;
@@ -21,9 +28,11 @@ public class CameraController : MonoBehaviour
         } else
         {
             // Im Flur
-            camera_targetPos = perfectAbraham.transform.localPosition.x;
+            camera_targetPos = -1.63f;
         }
 
         transform.localPosition = new Vector3(Mathf.Lerp(transform.localPosition.x, camera_targetPos, Time.deltaTime * 5), transform.localPosition.y, transform.localPosition.z);
+        other_camera.transform.localPosition = new Vector3(transform.localPosition.x, other_camera.transform.localPosition.y, other_camera.transform.localPosition.z);
+
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5325103558999845286}
   - component: {fileID: 5325103558999845285}
   - component: {fileID: 5325103558999845284}
+  - component: {fileID: 3307170787206688674}
   m_Layer: 6
   m_Name: Abraham
   m_TagString: GameWorld
@@ -117,3 +118,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walking_speed: 0.26
+--- !u!114 &3307170787206688674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5325103558999845290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1abbacbe9d83ba4980f5c864a74a27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textColor: {r: 0.8679245, g: 0.26610893, b: 0.8578941, a: 1}
+  textField: {fileID: 0}
+  cam: {fileID: 0}

@@ -23,8 +23,13 @@ public class Conversationalist : MonoBehaviour
 
     private void DoneTalking()
     {
+        Invoke("EndOfPause", 0.5f);
+        textField.text = "";
+    }
+
+    private void EndOfPause()
+    {
         done_talking = true;
-        textField.text = "...";
     }
 
     public bool IsDoneTalking()
@@ -36,13 +41,15 @@ public class Conversationalist : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         textField.color = textColor;
+        //textField.text = gameObject.name;
+        textField.text = "";
     }
 
     void Update()
     {
         anim.SetBool("Talking", !done_talking);
         Vector3 relative_screen_position = ((transform.position - cam.transform.position) + new Vector3(1,1,0)) / 2;
-        Debug.Log("Relative Screen Pos " + gameObject.name + ": " + relative_screen_position + "  results in x = " + (relative_screen_position.x * Camera.main.pixelWidth));
+        //Debug.Log("Relative Screen Pos " + gameObject.name + ": " + relative_screen_position + "  results in x = " + (relative_screen_position.x * Camera.main.pixelWidth));
         textField.transform.position = new Vector3(relative_screen_position.x * Camera.main.pixelWidth, textField.transform.position.y, 0);
     }
 }

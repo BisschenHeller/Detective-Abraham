@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BenController : MonoBehaviour
 {
-    public bool perfect = false;
+    public bool phone_out = false;
 
     private Animator anim;
 
@@ -26,7 +26,7 @@ public class BenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        anim.SetBool("Phone", !perfect); // Move this to the start function after debugging
+        anim.SetBool("Phone", phone_out);
 
         if (Mathf.Abs(target_x - transform.localPosition.x) > arrival_threshold)
         {
