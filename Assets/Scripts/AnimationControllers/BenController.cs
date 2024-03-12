@@ -8,7 +8,7 @@ public class BenController : MonoBehaviour
 
     private Animator anim;
 
-    [Range(-2.4f, 0)]
+    [Range(-1.2f, 2.14f)]
     public float target_x;
 
     public float speed = 1;

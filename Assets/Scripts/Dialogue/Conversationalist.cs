@@ -23,7 +23,7 @@ public class Conversationalist : MonoBehaviour
 
     private void DoneTalking()
     {
-        Invoke("EndOfPause", 0.5f);
+        Invoke("EndOfPause", 0.25f);
         textField.text = "";
     }
 

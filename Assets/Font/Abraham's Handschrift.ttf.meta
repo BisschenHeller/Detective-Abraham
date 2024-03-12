@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: db047558b50070f47b65ea02c16148a3
+guid: 263ad409155bbf44aa35f7611e5e806d
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Abrahams Handwriting
+  - Handschrift
   fallbackFontReferences: []
-  customCharacters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_+.,!?:'
+  customCharacters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_+.,!?:'()1234567890=>\xF6\xFC~#"
   fontRenderingMode: 2
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0

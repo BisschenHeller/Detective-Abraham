@@ -120,11 +120,11 @@ public class AbrahamAnimationController : MonoBehaviour
         sliceNo = Mathf.Clamp(sliceNo, lowerclamp, upperclamp);
         if (sliceNo == lowerclamp)
         {
-            transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Max(-0.18f, transform.localPosition.y), 0);
+            transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Max(-0.18f, transform.localPosition.y), -0.001f);
         }
         else if (sliceNo == upperclamp)
         {
-            transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Min(-0.17f, transform.localPosition.y), 0);
+            transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Min(-0.17f, transform.localPosition.y), -0.001f);
         }
         
         

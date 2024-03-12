@@ -106,9 +106,9 @@ Shader "Hidden/Aberrations"
                                        aberrations_linger * 0.5 * tex2D(Perfect_World_Render, float2(i.uv.x + kleines_f, i.uv.y));
                 
                 if (kleines_f < 0) {
-                    offset_sample.xy *= 0.5 * (1-aberrations_linger) + (kleines_f+0.5);
+                    offset_sample.xy *= 0.8 * (1-aberrations_linger) + (kleines_f+0.2);
                 } else if (kleines_f > 0) {
-                    offset_sample.yz *= 0.5 * (1-aberrations_linger) + (kleines_f+0.5);
+                    offset_sample.yz *= 0.8 * (1-aberrations_linger) + (kleines_f+0.2);
                 }
 
                 bool diff = differnt(perfect_sample.xyz, real_sample.xyz); // Determines wheter or not the pixel is affected by an aberration

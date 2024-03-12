@@ -19,6 +19,8 @@ public class Storyteller : MonoBehaviour
 
     public AufzugController aufzug;
 
+    public GameObject flur_parent;
+
     private void MoveAbraham(float x)
     {
         perf_abraham.transform.localPosition = new Vector3(x, perf_abraham.transform.localPosition.y, perf_abraham.transform.localPosition.z);
@@ -33,13 +35,33 @@ public class Storyteller : MonoBehaviour
 
     private void Start()
     {
-        GameState endState = new GameState(null, () => { Debug.Log("End of the game.");  return 1; }, () => { return false; });
+        GameState endState = new GameState(null, () => { Debug.Log("End of the game."); return 1; }, () => { return false; });
 
-        GameState freeRoam = new GameState(endState,
-            () => { contr_OfficerBen.target_x = -1.0f; movement_abe.locked = false; return 0; },
+        GameState elevatorRide01 = new GameState(endState,
+            () => { MakeAbrahamThink("", 4); MoveAbraham(0); MoveBen(0.58f); contr_OfficerBen.target_x = 0.58f; contr_OfficerBen.phone_out = true; flur_parent.transform.localPosition = new Vector3(-1.62f, -0.04f, 0); movement_abe.locked = false; return 0; },
+            () => { return !abe_thinking; });
+
+        stateMachine = new StateMachine(elevatorRide01);
+        stateMachine.Start();
+
+    }
+
+    private GameState freeRoamBetween1and2;
+
+    /* 
+     * starts with abraham taking an elevator up Josuas Hosue. Ends with him in the kitchen, free to find out why joshua couldn't have killen himself.
+     */
+    private void __PART01__(GameState nextState)
+    {
+        freeRoamBetween1and2 = new GameState(nextState,
+            () => { contr_OfficerBen.target_x = 0.58f; movement_abe.locked = false; return 0; },
             () => { return false; });
 
-        GameState benBriefing06 = new GameState(freeRoam,
+        GameState benBriefing07 = new GameState(freeRoamBetween1and2,
+            () => { conv_OfficerBen.Say("That smell makes my head hurt", 2.5f); return 0; },
+            () => { return conv_OfficerBen.IsDoneTalking(); });
+
+        GameState benBriefing06 = new GameState(benBriefing07,
             () => { conv_OfficerBen.Say("I'll be outside if you need me.", 2.5f); return 0; },
             () => { return conv_OfficerBen.IsDoneTalking(); });
 
@@ -48,12 +70,8 @@ public class Storyteller : MonoBehaviour
             () => { return conv_OfficerBen.IsDoneTalking(); });
 
         GameState benBriefing04 = new GameState(benBriefing05,
-            () => { conv_OfficerBen.Say("See most of us think he did it himself", 2.5f); return 0; },
+            () => { conv_OfficerBen.Say("You see, most of us think he did it himself", 2.5f); return 0; },
             () => { return conv_OfficerBen.IsDoneTalking(); });
-
-        /*GameState benBriefing03 = new GameState(benBriefing04,
-            () => { conv_OfficerBen.Say("Joshua Braun, 24 Years old.", 2.5f); return 0; },
-            () => { return conv_OfficerBen.IsDoneTalking(); });*/
 
         GameState benBriefing02 = new GameState(benBriefing04,
             () => { conv_OfficerBen.Say("Here, this is his ID.", 2.5f); return 0; },
@@ -104,23 +122,24 @@ public class Storyteller : MonoBehaviour
             () => { return movement_abe.transform.position.x >= -1.9; });
 
         GameState benWalksToTheKitchen = new GameState(abeStartsTalkingToHimself,
-            () => { contr_OfficerBen.target_x = -0.2f; movement_abe.locked = false; return 0; },
+            () => { contr_OfficerBen.target_x = 1.25f; movement_abe.locked = false; return 0; },
             () => { return movement_abe.transform.position.x >= -2.2; });
 
         GameState benSaysRightThisWay = new GameState(benWalksToTheKitchen,
-            () => { contr_OfficerBen.target_x = -1.85f; conv_OfficerBen.Say("Right this way.", 2); return 0; },
+            () => { conv_OfficerBen.Say("Right this way.", 2); return 0; },
             () => { return conv_OfficerBen.IsDoneTalking(); });
 
         GameState benSaysHello = new GameState(benSaysRightThisWay,
-            () => { contr_OfficerBen.target_x = -1.85f; subtitle.ClearTutorialText(); conv_OfficerBen.Say("Ah there you are, Abe.", 3); movement_abe.locked = true;  return 0; },
+            () => { subtitle.ClearTutorialText(); conv_OfficerBen.Say("Ah there you are, Abe.", 3); movement_abe.locked = true; return 0; },
             () => { return conv_OfficerBen.IsDoneTalking(); });
 
         GameState abeLeavesElevator = new GameState(benSaysHello,
-            () => { movement_abe.locked = false; contr_OfficerBen.phone_out = true; MoveBen(-1.85f);  subtitle.SetTutorialText("Use [WASD] to walk"); return 0; },
+            () => { movement_abe.locked = false; subtitle.SetTutorialText("Use [WASD] to walk"); return 0; },
             () => { return perf_abraham.transform.localPosition.x >= -2.45f; });
 
         GameState elevatorRide04 = new GameState(abeLeavesElevator,
-            () => { MakeAbrahamThink("It's a beautiful place...", 2); return 0; },
+            () => { flur_parent.transform.localPosition = new Vector3(-1.62f, Mathf.Lerp(-0.04f, 0.86f, 1 - Mathf.Sin(Mathf.PI * (1 - aufzug.speed) / 2)), 0); return 0; },
+            () => { MakeAbrahamThink("Oh how I wish to live in that world...", 3); return 0; },
             () => { return aufzug.arrived; });
 
         GameState elevatorRide03 = new GameState(elevatorRide04,
@@ -132,12 +151,13 @@ public class Storyteller : MonoBehaviour
             () => { return !abe_thinking; });
 
         GameState elevatorRide01 = new GameState(elevatorRide02,
-            () => { MakeAbrahamThink("", 2); MoveAbraham(-2.9f); movement_abe.locked = true; return 0; },
+            () => { MakeAbrahamThink("", 4); MoveAbraham(-2.9f); MoveBen(-0.14f); contr_OfficerBen.target_x = -0.14f; contr_OfficerBen.phone_out = true; movement_abe.locked = true; return 0; },
             () => { return !abe_thinking; });
 
         stateMachine = new StateMachine(elevatorRide01);
         stateMachine.Start();
     }
+
 
     private bool abe_thinking = false;
 
@@ -197,6 +217,15 @@ public class GameState
         next = nextState;
         on_entry = entry;
         exit_condition = exit;
+        update = () => { return 0; };
+    }
+
+    public GameState(GameState nextState, Func<int> every_frame, Func<int> entry, Func<bool> exit)
+    {
+        next = nextState;
+        on_entry = entry;
+        exit_condition = exit;
+        update = every_frame;
     }
 
     public GameState next;
@@ -204,6 +233,8 @@ public class GameState
     public Func<bool> exit_condition;
 
     public Func<int> on_entry;
+    
+    public Func<int> update;
 
     public void Start()
     {
@@ -212,6 +243,6 @@ public class GameState
 
     public void Update()
     {
-
+        update();
     }
 }
