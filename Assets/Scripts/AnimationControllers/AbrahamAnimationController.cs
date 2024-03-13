@@ -65,8 +65,6 @@ public class AbrahamAnimationController : MonoBehaviour
         else return 0;               // bis 0.6		0 - 7
     }
 
-    private float depth_value = 0;
-
     public bool force_right = false;
 
     // Update is called once per frame

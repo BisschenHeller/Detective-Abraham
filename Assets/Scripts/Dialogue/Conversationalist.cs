@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -14,10 +15,29 @@ public class Conversationalist : MonoBehaviour
 
     protected bool done_talking = true;
 
+    private float initial_alpha;
+
+    public bool i_talk_with_phone_in_hand;
+
+    public void Think(string thought, float time)
+    {
+        is_thought = true;
+        done_talking = false;
+        textField.text = thought;
+        Invoke("DoneTalking", time);
+        if (!i_talk_with_phone_in_hand)
+            textField.color = new Color(textColor.r, textColor.g, textColor.b, initial_alpha * 0.65f);
+    }
+
+    public bool is_thought = false;
+
     public void Say(string sentence, float time)
     {
+        is_thought = false;
         done_talking = false;
         textField.text = sentence;
+        textField.color = new Color(textColor.r, textColor.g, textColor.b, initial_alpha);
+        
         Invoke("DoneTalking", time);
     }
 
@@ -39,6 +59,7 @@ public class Conversationalist : MonoBehaviour
 
     public void Start()
     {
+        initial_alpha = textColor.a;
         anim = GetComponent<Animator>();
         textField.color = textColor;
         //textField.text = gameObject.name;
@@ -47,9 +68,9 @@ public class Conversationalist : MonoBehaviour
 
     void Update()
     {
-        anim.SetBool("Talking", !done_talking);
+        anim.SetBool("Talking", !done_talking && !is_thought);
         Vector3 relative_screen_position = ((transform.position - cam.transform.position) + new Vector3(1,1,0)) / 2;
-        //Debug.Log("Relative Screen Pos " + gameObject.name + ": " + relative_screen_position + "  results in x = " + (relative_screen_position.x * Camera.main.pixelWidth));
-        textField.transform.position = new Vector3(relative_screen_position.x * Camera.main.pixelWidth, textField.transform.position.y, 0);
+        //textField.rectTransform.pivot = new Vector2(Mathf.Clamp01(relative_screen_position.x), 0);
+        textField.transform.position = new Vector3(Mathf.Clamp(relative_screen_position.x * Camera.main.pixelWidth, 400, 1520), textField.transform.position.y, 0);
     }
 }

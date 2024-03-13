@@ -10,6 +10,7 @@ Shader "Hidden/Aberrations"
         timer ("Runtime", float) = 0.0
         aberrations_linger ("How Long Aberrations Linger", float) = 0.0
         notebook ("wheter or not the notebook is open", float) = 0.0
+        fade ("Fading Awayy", float) = 0.0
     }
     SubShader
     {
@@ -54,6 +55,7 @@ Shader "Hidden/Aberrations"
             float eyes_closed;
             float timer;
             float notebook;
+            float fade;
 
             //float gamma_correct(float channel) { // I am doing this because wikipedia said so, I don't even know if the input is gamma compressed (or what that means)
             //    return pow(channel, 2.2);
@@ -128,7 +130,7 @@ Shader "Hidden/Aberrations"
 
                 col -= fixed3(1,1,1) * 0.2 * notebook;
 
-                return fixed4(col, 1);
+                return fixed4(col, 1) * (1-fade);
             }
             ENDCG
         }

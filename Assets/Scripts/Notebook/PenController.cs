@@ -34,7 +34,6 @@ public class PenController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             schatten.transform.localPosition = transform.localPosition;
-
         }
         else
         {

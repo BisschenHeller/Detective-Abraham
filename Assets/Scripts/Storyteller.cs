@@ -38,7 +38,7 @@ public class Storyteller : MonoBehaviour
         GameState endState = new GameState(null, () => { Debug.Log("End of the game."); return 1; }, () => { return false; });
 
         GameState elevatorRide01 = new GameState(endState,
-            () => { MakeAbrahamThink("", 4); MoveAbraham(0); MoveBen(0.58f); contr_OfficerBen.target_x = 0.58f; contr_OfficerBen.phone_out = true; flur_parent.transform.localPosition = new Vector3(-1.62f, -0.04f, 0); movement_abe.locked = false; return 0; },
+            () => { MakeAbrahamThink("", 4); MoveAbraham(-1.4f); MoveBen(0.58f); contr_OfficerBen.target_x = 0.58f; contr_OfficerBen.phone_out = true; flur_parent.transform.localPosition = new Vector3(-1.62f, -0.04f, 0); movement_abe.locked = false; return 0; },
             () => { return !abe_thinking; });
 
         stateMachine = new StateMachine(elevatorRide01);

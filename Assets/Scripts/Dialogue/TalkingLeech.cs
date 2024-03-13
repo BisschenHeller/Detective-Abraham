@@ -13,6 +13,6 @@ public class TalkingLeech : MonoBehaviour
 
     private void Update()
     {
-        anim.SetBool("Talking", !leechingFrom.IsDoneTalking());
+        anim.SetBool("Talking", !leechingFrom.IsDoneTalking() && !leechingFrom.is_thought);
     }
 }
