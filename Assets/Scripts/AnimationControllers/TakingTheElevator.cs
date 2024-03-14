@@ -46,6 +46,7 @@ public class TakingTheElevator : MonoBehaviour
 
     public void TakeElevatorUp()
     {
+        FindObjectOfType<AufzugController>().GoUp();
         fading = true;
         fadingDir = 1;
         nachdrausssen = false;
@@ -53,6 +54,7 @@ public class TakingTheElevator : MonoBehaviour
 
     public void TakeElevatorDown()
     {
+        FindObjectOfType<AufzugController>().GoDown();
         fading = true;
         fadingDir = 1;
         nachdrausssen = true;
@@ -62,7 +64,7 @@ public class TakingTheElevator : MonoBehaviour
     {
         if (fading)
         {
-            fade += Time.deltaTime * fadingDir;
+            fade += Time.deltaTime * fadingDir * 0.33f;
             fade = Mathf.Clamp01(fade);
             rendererForFade.material.SetFloat("fade", fade);
             if (fade == 0 || fade == 1) DoneFading();

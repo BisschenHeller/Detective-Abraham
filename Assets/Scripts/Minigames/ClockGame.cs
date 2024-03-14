@@ -8,10 +8,13 @@ public class ClockGame : MonoBehaviour
     [Range(-24,24)]
     public float einstellung = 0;
 
+    private float initial_y = 0;
+
     public float actualTime = 1.2f;
 
-    public Texture richtig2215;
-    public Texture falsch2315;
+    public Texture falsch2215;
+    public Texture richtig2315;
+    public Texture cleanTex;
 
     public GameObject perf_minutenzeiger;
     public GameObject perf_stundenzeiger;
@@ -19,7 +22,10 @@ public class ClockGame : MonoBehaviour
     public GameObject real_minutenzeiger;
     public GameObject real_stundenzeiger;
 
-    public GameObject clockParent;
+    public GameObject realParent;
+    public GameObject perfParent;
+
+    public List<GameObject> dirtyZeiger;
 
     public bool inProgress = false;
 
@@ -27,53 +33,76 @@ public class ClockGame : MonoBehaviour
     {
         // When Abraham Enters the building, it's 1:20 a.m.
         actualTime = 4.0f / 3.0f;
-        clockParent.transform.position = clockParent.transform.position - new Vector3(0, 100, 0);
+        initial_y = realParent.transform.position.y;
+        realParent.transform.position = new Vector3(realParent.transform.position.x, initial_y-100, realParent.transform.position.z);
+        perfParent.transform.position = new Vector3(perfParent.transform.position.x, initial_y-100, perfParent.transform.position.z);
+        
     }
 
     public bool movingClockBack = false;
 
     public bool done = false;
 
-    public bool correct_time = false;
+    public bool _correct_time = false;
+    public bool _clean = true;
 
     public bool solved = false;
 
     public bool solved_wrong = false;
 
-    public void SwitchZiffernblatt(bool _richtig2215)
+    public void SwitchZiffernblattCorrect(bool correct_time)
     {
-        Debug.Log("Switching to " + _richtig2215);
-        GetComponent<RawImage>().texture = _richtig2215 ? richtig2215 : falsch2315;
-        correct_time = _richtig2215;
+        _correct_time = correct_time;
+        if (_clean) return;
+        if (_correct_time)
+        {
+            GetComponent<RawImage>().texture = richtig2315;
+        } else
+        {
+            GetComponent<RawImage>().texture = falsch2215;
+        }
+    }
+
+    public void SwitchZiffernblattCleanliness(bool clean)
+    {
+        _clean = clean;
+        if (_clean)
+        {
+            GetComponent<RawImage>().texture = cleanTex;
+            dirtyZeiger.ForEach(a => a.SetActive(false));
+        }
+        else
+        {
+            dirtyZeiger.ForEach(a => a.SetActive(true));
+            if (_correct_time)
+            {
+                GetComponent<RawImage>().texture = richtig2315;
+            }
+            else
+            {
+                GetComponent<RawImage>().texture = falsch2215;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Ziel:  -3.08333 (Falsche Uhr)
-        // Sonst: -4.08333 (Richtige Uhr)
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (inProgress && (Mathf.Abs(Input.GetAxis("Horizontal")) != 0 || Mathf.Abs(Input.GetAxis("Vertical")) != 0))
         {
-            if (inProgress) EndMinigame();
-            else StartMingame();
+            EndMinigame();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SwitchZiffernblatt(!correct_time);
-        }
-
-        if (solved) return;
-        if (!inProgress && !movingClockBack) return;
-
         if (movingClockBack)
         {
-            einstellung /= 1.1f;
-            if (einstellung <= 0.01f)
+            einstellung -= 2 * Time.deltaTime * Mathf.Sign(einstellung);
+            if (Mathf.Abs(einstellung) <= 0.05f)
             {
                 Invoke("Done", 0.5f);
                 movingClockBack = false;
             }
         }
+        
+        if (!inProgress && !movingClockBack) return;
 
         if (inProgress) {
             einstellung += Input.mouseScrollDelta.y * 0.08333333333f;
@@ -84,35 +113,43 @@ public class ClockGame : MonoBehaviour
         real_minutenzeiger.transform.rotation = Quaternion.identity;
         real_stundenzeiger.transform.rotation = Quaternion.identity;
 
-        perf_minutenzeiger.transform.Rotate(new Vector3(0,0,-360 * (actualTime % 1.0f)));
-        perf_stundenzeiger.transform.Rotate(new Vector3(0,0,-30 * actualTime));
+        perf_minutenzeiger.transform.Rotate(new Vector3(0, 0, -360 * ((actualTime + einstellung) % 1.0f)));
+        perf_stundenzeiger.transform.Rotate(new Vector3(0, 0, -30 * (actualTime + einstellung - (_correct_time ? -1 : 0))));
 
-        real_minutenzeiger.transform.Rotate(new Vector3(0, 0, -360 * ((actualTime + einstellung + 1) % 1.0f)));
+        real_minutenzeiger.transform.Rotate(new Vector3(0, 0, -360 * ((actualTime + einstellung) % 1.0f)));
         real_stundenzeiger.transform.Rotate(new Vector3(0, 0, -30 * (actualTime + einstellung + 1)));
 
+        if (solved) return;
 
-        if ((correct_time && (Mathf.Abs(einstellung + 4.08333f) < 0.005)))
+        //  Blut    && Imaginäre Welt                   && kompromiss für richtige Zeit && Richtige Einstellung
+        if (!_clean && Input.GetAxis("Blink") > 0.8f && _correct_time && (Mathf.Abs(einstellung + 3.08333f) < 0.005))
         {
             solved = true;
-            FindObjectOfType<Notebook_Controller>().AddNote(NoteID.Died2215);
-            enabled = false;
+            FindObjectOfType<Notebook_Controller>().AddNote(NoteID.Died2315);
         }
-        else if (!solved_wrong && !correct_time && (Mathf.Abs(einstellung + 3.08333f) < 0.005))
+        //       Blut    && !solved && !correctTime   &&
+        else if (!solved_wrong && !solved && !_correct_time && (Mathf.Abs(einstellung + 4.08333f) < 0.005))
         {
-            solved_wrong = !solved;
-            if (solved_wrong)
+            float blink = Input.GetAxis("Blink");
+            if ((blink > 0.5f && !_clean) || (blink < 0.5f))
             {
-                FindObjectOfType<Notebook_Controller>().AddNote(NoteID.ProbablyDied2315);
+                FindObjectOfType<Notebook_Controller>().AddNote(NoteID.ProbablyDied2215);
+                solved_wrong = true;
             }
         }
     }
 
     public void StartMingame()
     {
+        TutorialManager manager = FindObjectOfType<TutorialManager>();
+        manager.SetTutorialText("Use your mousewheel to change the clock.");
+        manager.Invoke("ClearTutorialText", 4);
+
         actualTime = 1.3333333333f;
         einstellung = 0;
         inProgress = true;
-        clockParent.transform.localPosition += new Vector3(0, 100, 0);
+        realParent.transform.position = new Vector3(realParent.transform.position.x, initial_y, realParent.transform.position.z);
+        perfParent.transform.position = new Vector3(perfParent.transform.position.x, initial_y, perfParent.transform.position.z);
     }
 
     public void EndMinigame()
@@ -124,6 +161,12 @@ public class ClockGame : MonoBehaviour
     public void Done()
     {
         Debug.Log("Done");
-        clockParent.transform.localPosition -= new Vector3(0, 100, 0);
+        realParent.transform.position = new Vector3(realParent.transform.position.x, initial_y - 100, realParent.transform.position.z);
+        perfParent.transform.position = new Vector3(perfParent.transform.position.x, initial_y - 100, perfParent.transform.position.z);
     }
+}
+
+public enum Ziffernblatt
+{
+    DirtyCorrect2215, DirtyWrong2315, Clean
 }

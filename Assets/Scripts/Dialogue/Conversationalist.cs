@@ -38,7 +38,7 @@ public class Conversationalist : MonoBehaviour
         textField.text = sentence;
         textField.color = new Color(textColor.r, textColor.g, textColor.b, initial_alpha);
         
-        Invoke("DoneTalking", time);
+        Invoke("DoneTalking", time*1.5f);
     }
 
     private void DoneTalking()
@@ -71,6 +71,6 @@ public class Conversationalist : MonoBehaviour
         anim.SetBool("Talking", !done_talking && !is_thought);
         Vector3 relative_screen_position = ((transform.position - cam.transform.position) + new Vector3(1,1,0)) / 2;
         //textField.rectTransform.pivot = new Vector2(Mathf.Clamp01(relative_screen_position.x), 0);
-        textField.transform.position = new Vector3(Mathf.Clamp(relative_screen_position.x * Camera.main.pixelWidth, 400, 1520), textField.transform.position.y, 0);
+        textField.transform.position = new Vector3(Mathf.Clamp(relative_screen_position.x * Camera.main.pixelWidth, 350, 1570), textField.transform.position.y, 0);
     }
 }

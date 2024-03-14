@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cool Font Material
-  m_Shader: {fileID: 4800000, guid: 128e987d567d4e2c824d754223b3f3b0, type: 3}
+  m_Shader: {fileID: 4800000, guid: 48bb5f55d8670e349b6e614913f9d910, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 8240153219051591899}
+        m_Texture: {fileID: 2800000, guid: 10330565b1fea8244b4bc41711188002, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -33,6 +33,7 @@ Material:
     - _CullMode: 0
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
+    - _Padding: 0
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -56,9 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Cool Font
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -49067620
   material: {fileID: -3746085480632661499}
-  materialHashCode: 0
+  materialHashCode: 163472060
   m_Version: 1.1.0
   m_SourceFontFileGUID: 5eb5da20ac549fd49b60915c0a6ed3b0
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 5eb5da20ac549fd49b60915c0a6ed3b0, type: 3}

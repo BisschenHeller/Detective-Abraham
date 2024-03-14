@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -21,6 +22,8 @@ public class Storyteller : MonoBehaviour
 
     public GameObject flur_parent;
 
+    public Notebook_Controller notebook;
+
     private void MoveAbraham(float x)
     {
         perf_abraham.transform.localPosition = new Vector3(x, perf_abraham.transform.localPosition.y, perf_abraham.transform.localPosition.z);
@@ -40,10 +43,10 @@ public class Storyteller : MonoBehaviour
         GameState elevatorRide01 = new GameState(endState,
             () => { MakeAbrahamThink("", 4); MoveAbraham(-1.4f); MoveBen(0.58f); contr_OfficerBen.target_x = 0.58f; contr_OfficerBen.phone_out = true; flur_parent.transform.localPosition = new Vector3(-1.62f, -0.04f, 0); movement_abe.locked = false; return 0; },
             () => { return !abe_thinking; });
-
         stateMachine = new StateMachine(elevatorRide01);
         stateMachine.Start();
 
+        //__PART01__(endState);
     }
 
     private GameState freeRoamBetween1and2;
@@ -62,7 +65,10 @@ public class Storyteller : MonoBehaviour
             () => { return conv_OfficerBen.IsDoneTalking(); });
 
         GameState benBriefing06 = new GameState(benBriefing07,
-            () => { conv_OfficerBen.Say("I'll be outside if you need me.", 2.5f); return 0; },
+            () => { 
+                conv_OfficerBen.Say("I'll be outside if you need me.", 2.5f);
+                notebook.AddWhatIf(CompromiseID.JohuaCommittedSuicide);
+                return 0; },
             () => { return conv_OfficerBen.IsDoneTalking(); });
 
         GameState benBriefing05 = new GameState(benBriefing06,
@@ -151,13 +157,39 @@ public class Storyteller : MonoBehaviour
             () => { return !abe_thinking; });
 
         GameState elevatorRide01 = new GameState(elevatorRide02,
-            () => { MakeAbrahamThink("", 4); MoveAbraham(-2.9f); MoveBen(-0.14f); contr_OfficerBen.target_x = -0.14f; contr_OfficerBen.phone_out = true; movement_abe.locked = true; return 0; },
+            () => { flur_parent.transform.localPosition = new Vector3(-1.62f, 0.86f, 0); MakeAbrahamThink("", 4); MoveAbraham(-2.9f); MoveBen(-0.14f); contr_OfficerBen.target_x = -0.14f; contr_OfficerBen.phone_out = true; movement_abe.locked = true; return 0; },
             () => { return !abe_thinking; });
 
         stateMachine = new StateMachine(elevatorRide01);
         stateMachine.Start();
     }
 
+    public List<GameObject> obenWardrobe_Window;
+    public List<GameObject> closedWardrobe_Window;
+
+    public void Showdown()
+    {
+        GameState endState = new GameState(null, () => { Debug.Log("End of the game."); return 1; }, () => { return false; });
+
+        GameState holyshit = new GameState(endState,
+            () => { conv_OfficerBen.Say("Holy Shit.", 2); return 0; },
+            () => { conv_OfficerBen.IsDoneTalking(); return false; });
+
+        GameState freeze = new GameState(holyshit,
+            () => {
+                contr_OfficerBen.GetComponent<BenController>().target_x = 1.36f;
+                conv_OfficerBen.Say("HEY! FREEZE!", 1.5f); 
+                movement_abe.force_right = true;
+                obenWardrobe_Window.ForEach(a => a.GetComponent<SpriteRenderer>().enabled = true);
+                closedWardrobe_Window.ForEach(a => a.GetComponent<SpriteRenderer>().enabled = false);
+                
+                return 0; },
+            () => { return movement_abe.transform.localPosition.x >= -0.56f; }
+            );
+
+        stateMachine = new StateMachine(freeze);
+        stateMachine.Start();
+    }
 
     private bool abe_thinking = false;
 

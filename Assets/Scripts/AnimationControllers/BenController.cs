@@ -15,12 +15,18 @@ public class BenController : MonoBehaviour
 
     public float arrival_threshold = 0.1f;
 
+    public void SetNervosity(float nervous)
+    {
+        anim.SetFloat("Nervous", nervous);
+    }
+
     //public GameObject TestCube;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        SetNervosity(1);
     }
     
     // Update is called once per frame
@@ -39,6 +45,21 @@ public class BenController : MonoBehaviour
         //transform.localPosition = new Vector3(Mathf.Round(transform.localPosition.x * 100.0f) / 100.0f, transform.localPosition.y, transform.localPosition.z);
         //TestCube.transform.localPosition = new Vector3(target_x, 0, 0);
         //TestCube.transform.localScale = new Vector3(arrival_threshold, 0.3f, 0.1f);
+    }
+
+    public bool has_gun_out = false;
+
+    public void TakeGunOut()
+    {
+        has_gun_out = true;
+        anim.SetBool("GunOut", true);
+        anim.SetBool("Phone", false);
+    }
+
+    public void PutGunAway()
+    {
+        has_gun_out = false;
+        anim.SetBool("GunOut", false);
     }
 
     public bool IsDoneWalking()

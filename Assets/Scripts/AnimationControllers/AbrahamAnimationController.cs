@@ -72,6 +72,7 @@ public class AbrahamAnimationController : MonoBehaviour
     {
         if (locked)
         {
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -0.005f);
             anim.SetFloat("Speed", 0);
             imp_anim.SetFloat("Speed", 0);
             return;

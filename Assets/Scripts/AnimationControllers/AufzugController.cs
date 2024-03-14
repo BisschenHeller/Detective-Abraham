@@ -8,12 +8,11 @@ public class AufzugController : MonoBehaviour
 
     public float speed = 1;
 
-    void Start()
-    {
-        
-    }
+    public float direction = 1;
 
     public bool slowing_down;
+
+    public bool speeding_up;
 
     // Update is called once per frame
     void Update()
@@ -21,10 +20,24 @@ public class AufzugController : MonoBehaviour
         if (slowing_down)
         {
             speed -= Time.deltaTime;
-            speed = Mathf.Clamp01(speed);
+        } else if (speeding_up) {
+            speed += Time.deltaTime;
         }
+        speed = Mathf.Clamp01(speed);
         if (speed == 0) arrived = true;
     }
+
+    public void GoDown()
+    {
+        speed = 0; arrived = false; slowing_down = false; speeding_up = true; direction = -1;
+    }
+
+    public void GoUp()
+    {
+        speed = 1; arrived = false; slowing_down = false; speeding_up = false; direction = 1; Invoke("Arrived", 5);
+    }
+
+    
 
     public void Arrived()
     {

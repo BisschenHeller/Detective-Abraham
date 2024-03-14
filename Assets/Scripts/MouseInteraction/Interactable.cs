@@ -19,13 +19,10 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private DialogueID dialogueID;
 
-
     public DialogueID GetDialogueID()
     {
         return dialogueID;
     }
-
-    private bool acknowledged_aberration = false;
 
     public string GetSubtitlePrompt()
     {
@@ -34,11 +31,14 @@ public class Interactable : MonoBehaviour
 
     public InteractionType GetInteractionType()
     {
-        if (aberrated && !acknowledged_aberration)
+        if (aberrated)
         {
-            if (Input.GetAxis("Aberrations_Linger") > 0 && BlinkingController.way_down)
+            if (Input.GetAxis("Aberrations_Linger") != 0 && BlinkingController.way_down)
             {
                 return InteractionType.Aberration;
+            } else
+            {
+                //if (!BlinkingController.way_down) Debug.Log("Not on the way donw.");
             }
         }
         return interactionType;

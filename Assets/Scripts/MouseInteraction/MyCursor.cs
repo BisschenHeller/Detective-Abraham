@@ -67,7 +67,8 @@ public class MyCursor : MonoBehaviour
         if (locked)
         {
             TEST_CUBE.transform.localPosition = Vector3.zero;
-            Debug.Log("Cursor Locked");
+            subtitle.text = "";
+//            Debug.Log("Cursor Locked");
             return;
         }
         Vector2 mouse_pos = Input.mousePosition;
@@ -80,9 +81,9 @@ public class MyCursor : MonoBehaviour
         relative_mouse_pos -= new Vector2(1, 1);
         
         old_mouse_pos = mouse_pos;
-        
+        //if (Input.GetAxis("Aberrations_Linger") != 0) Debug.Log(Input.GetAxis("Aberrations_Linger"));
         TEST_CUBE.transform.localPosition = relative_mouse_pos * minmax_cursor;
-        TEST_CUBE.transform.localPosition += (Input.GetAxis("Aberrations_Linger") < 0.5 ? real_cam.transform.position : perfect_cam.transform.position);
+        TEST_CUBE.transform.localPosition += (Input.GetAxis("Aberrations_Linger") < 0.25 ? real_cam.transform.position : perfect_cam.transform.position);
         TEST_CUBE.transform.localPosition += new Vector3(0,0,0.5f);
 
 
@@ -111,16 +112,13 @@ public class MyCursor : MonoBehaviour
                 } 
                 
                 if (interactable.GetInteractionType() == InteractionType.Aberration) {
-                    subtitle.text = "Notice Aberration";
+                    subtitle.text = "";
                 } else
                 {
                     subtitle.text = interactable.GetSubtitlePrompt();
                 }
 
                 SetCursor(interactable.GetInteractionType());
-                
-
-
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -134,7 +132,15 @@ public class MyCursor : MonoBehaviour
                             dialogueCenter.StartDialogue(interactable.GetDialogueID());
                             break;
                         case InteractionType.Aberration:
-                            notebook.AddWhatIf(interactable.GetCompromise());
+                            if (interactable.GetCompromise() == CompromiseID.Feign_IfSuicideWhereGun)
+                            {
+                                FindObjectOfType<DialogueCenter>().StartDialogue(DialogueID.Monologue_Kitchen_HandgunMissing);
+                            } else if (interactable.GetCompromise() == CompromiseID.Feign_WrongClock) {
+                                FindObjectOfType<DialogueCenter>().StartDialogue(DialogueID.Monologue_Kitchen_WrongClock);
+                            }
+                            else {
+                                notebook.AddWhatIf(interactable.GetCompromise());
+                            }
                             locked = false;
                             break;
                         case InteractionType.None:
@@ -142,7 +148,12 @@ public class MyCursor : MonoBehaviour
                             locked = false;
                             break;
                         case InteractionType.Elevator:
-                            FindObjectOfType<TakingTheElevator>().TakeElevatorDown();
+                            if (real_cam.transform.position.x > -5)
+                                FindObjectOfType<TakingTheElevator>().TakeElevatorDown();
+                            else
+                            {
+                                FindObjectOfType<TakingTheElevator>().TakeElevatorUp();
+                            }
                             locked = false;
                             break;
                     }

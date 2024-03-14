@@ -67,8 +67,8 @@ public class BlinkingController : MonoBehaviour
             artificial_al = Mathf.Clamp01(artificial_al - Time.deltaTime * 0.4f);
         }
 
-        way_down = lastValue > Mathf.Max(artificial_blink, Input.GetAxis("Blink"));
-        lastValue = Mathf.Max(artificial_blink, Input.GetAxis("Blink"));
+        way_down = lastValue > Input.GetAxis("Aberrations_Linger");
+        lastValue = Input.GetAxis("Aberrations_Linger");
 
         m_MeshRenderer.material.SetFloat("blinking", Mathf.Max(artificial_blink, Input.GetAxis("Blink")));
         m_MeshRenderer.material.SetFloat("eyes_closed", Mathf.Max(artificial_ec, Input.GetAxis("Eyes_Closed")));

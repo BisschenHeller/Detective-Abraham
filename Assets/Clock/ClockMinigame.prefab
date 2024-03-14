@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 755839271391270123}
   - component: {fileID: 755839271391270122}
   - component: {fileID: 755839271391270117}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Reale Uhr (Controller)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48.6, y: 0}
+  m_AnchoredPosition: {x: 0.5, y: -299.5}
   m_SizeDelta: {x: 47, y: 49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &755839271391270123
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 755839271595340050}
   - component: {fileID: 755839271595340048}
   - component: {fileID: 755839271595340051}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Realer Stundenzeiger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 755839271716711165}
   - component: {fileID: 755839271716711043}
   - component: {fileID: 755839271716711042}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Perfekter Stundenzeiger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 755839271823958414}
   - component: {fileID: 755839271823958412}
   - component: {fileID: 755839271823958415}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Perfekter Minutenzeiger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,6 +337,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 755839272058519508}
+  - component: {fileID: 1110504923}
   m_Layer: 5
   m_Name: ClockMinigame
   m_TagString: Untagged
@@ -353,7 +354,7 @@ RectTransform:
   m_GameObject: {fileID: 755839272058519511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_Children:
   - {fileID: 755839271391270116}
   - {fileID: 755839272774453145}
@@ -365,6 +366,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.23}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &1110504923
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755839272058519511}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &755839272069867528
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +398,7 @@ GameObject:
   - component: {fileID: 755839272069867529}
   - component: {fileID: 755839272069867535}
   - component: {fileID: 755839272069867534}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Blut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +473,7 @@ GameObject:
   - component: {fileID: 755839272438793573}
   - component: {fileID: 755839272438793579}
   - component: {fileID: 755839272438793578}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Blut (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +548,7 @@ GameObject:
   - component: {fileID: 755839272774453145}
   - component: {fileID: 755839272774453151}
   - component: {fileID: 755839272774453150}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Perfekte Uhr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +573,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -48.4, y: 0}
+  m_AnchoredPosition: {x: 0.5, y: 0.5}
   m_SizeDelta: {x: 47, y: 49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &755839272774453151
@@ -603,7 +625,7 @@ GameObject:
   - component: {fileID: 755839272983783225}
   - component: {fileID: 755839272983783231}
   - component: {fileID: 755839272983783230}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Realer Minutenzeiger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

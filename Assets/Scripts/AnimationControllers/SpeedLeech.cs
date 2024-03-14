@@ -13,6 +13,6 @@ public class SpeedLeech : MonoBehaviour
 
     private void Update()
     {
-        anim.SetFloat("Speed", controller.speed);
+        anim.SetFloat("Speed", controller.speed * controller.direction);
     }
 }
