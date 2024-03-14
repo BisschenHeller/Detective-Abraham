@@ -14,6 +14,8 @@ public class AufzugController : MonoBehaviour
 
     public bool speeding_up;
 
+    public GameObject flurParent;
+
     // Update is called once per frame
     void Update()
     {
@@ -25,6 +27,7 @@ public class AufzugController : MonoBehaviour
         }
         speed = Mathf.Clamp01(speed);
         if (speed == 0) arrived = true;
+        flurParent.transform.localPosition = new Vector3(-1.62f, Mathf.Lerp(-0.04f, 0.86f, 1 - Mathf.Sin(Mathf.PI * (1 - speed) / 2)), 0);
     }
 
     public void GoDown()

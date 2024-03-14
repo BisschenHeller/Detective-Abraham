@@ -33,6 +33,8 @@ public class Notebook_Controller : MonoBehaviour
 
     public ClockGame clockGame;
 
+    public GameObject joshuasID;
+
     public List<GameObject> joshua_dead_blood_gun;
     public List<GameObject> joshua_alive_clock;
 
@@ -56,6 +58,10 @@ public class Notebook_Controller : MonoBehaviour
         return compromises.Exists(a => a.id == id);
     }
 
+    public void DeactivateCompromises()
+    {
+        compromises.ForEach(e => e.SetActive(false));
+    }
     public void AddNote(NoteID id)
     {
         if (notes.Exists(a => a.id == id)) return;
@@ -69,11 +75,12 @@ public class Notebook_Controller : MonoBehaviour
         {
             case NoteID.Joshua_ID:
                 notes.Add(new Note(id));
-                notesLines[notes.Count - 1].text = "- Joshua Braun (24), German";
+                joshuasID.SetActive(true);
+                notesLines[notes.Count - 1].text = "- Joshua Braun (23), German";
                 break;
             case NoteID.Clock_Lazy:
                 notes.Add(new Note(id));
-                notesLines[notes.Count - 1].text = "- Joshua's clock is 1h too early";
+                notesLines[notes.Count - 1].text = "- Joshua's clock is 1h early";
                 if (notes.Exists(a => a.id == NoteID.ProbablyDied2215))
                 {
                     notesLines[wrongNoteIndex].text = "<s>" + notesLines[wrongNoteIndex].text;
@@ -125,7 +132,7 @@ public class Notebook_Controller : MonoBehaviour
 
                 break;
             default:
-                Debug.LogError("Note not Implemented: " + id.DisplayName());
+                //Debug.LogError("Note not Implemented: " + id.DisplayName());
                 break;
         }
         
@@ -138,6 +145,8 @@ public class Notebook_Controller : MonoBehaviour
             notesLines[notes.Count - 1].text = "  <u>The killer is in the building!!";
         }
     }
+
+    public bool tutorial_image_comp = false;
 
     public void AddCompromiseHeading()
     {
@@ -162,8 +171,8 @@ public class Notebook_Controller : MonoBehaviour
         {
             case CompromiseID.HangingPicturesIsHard:
                 compromises.Add(new Compromise(id, 
-                    () => { pictureCorrection.SetActive(true); return true; },
-                    () => { pictureCorrection.SetActive(false); return true; },
+                    () => { pictureCorrection.SetActive(true); tutorial_image_comp = true; return true;  },
+                    () => { pictureCorrection.SetActive(false); tutorial_image_comp = false; return true; },
                     compromiseLines[compromises.Count]));
                 compromiseLines[compromises.Count - 1].text = "ö Hanging pictures was hard";
                 break;
@@ -225,6 +234,7 @@ public class Notebook_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             AddWhatIf(CompromiseID.JohuaCommittedSuicide);
@@ -235,6 +245,7 @@ public class Notebook_Controller : MonoBehaviour
             AddWhatIf(CompromiseID.JohuasClockWasAccurate);
             Debug.Log("Added Compromise " + CompromiseID.JohuasClockWasAccurate.DisplayName() + " Artificially");
         }
+#endif
 
         float lerp_value = Input.GetAxis("Notebook");
         transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(min_y, max_y, lerp_value), transform.localPosition.z);

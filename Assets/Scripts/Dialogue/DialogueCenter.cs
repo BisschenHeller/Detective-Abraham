@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class DialogueCenter : MonoBehaviour
@@ -81,7 +79,8 @@ public class DialogueCenter : MonoBehaviour
                         new Phrase(officerBen, "did you see that guy who turns into a pickle?", 3, false),
                         new Phrase(officerBen, "Funniest shit I've ever seen.", 2, true)
                     };
-                } else
+                }
+                else
                 {
                     currentDialogue = new List<Phrase>() {
                         new Phrase(abraham, "I've never seen him this tense.", 1.5f, true),
@@ -115,7 +114,7 @@ public class DialogueCenter : MonoBehaviour
                 else if (!talkedaboutmurder && notebook.ContainsNote(NoteID.IfSuicideGun))
                 {
                     talkedaboutmurder = true;
-                    currentDialogue = new List<Phrase>{ 
+                    currentDialogue = new List<Phrase>{
                         new Phrase(abraham, "Ben!", 1.0f, false, () => { officerBen.GetComponent<BenController>().phone_out = false; return false; }),
                         new Phrase(abraham, "Forensics weren't here yet, right?", 2.0f),
                         new Phrase(officerBen, "No, I was the first to arrive here.", 2.0f),
@@ -131,10 +130,11 @@ public class DialogueCenter : MonoBehaviour
                         new Phrase(officerBen, "Maybe go ask if he saw someone come or go?", 2.0f),
                         new Phrase(officerBen, "I'll stand guard here until reinforcements arrive.", 3.5f, false,
                             () => { officerBen.GetComponent<BenController>().TakeGunOut();
-                                    officerBen.GetComponent<BenController>().target_x = 0.86f; return false; 
+                                    officerBen.GetComponent<BenController>().target_x = 0.86f; return false;
                             })
                     };
-                } else if (talkedaboutmurder)
+                }
+                else if (talkedaboutmurder)
                 {
                     currentDialogue = new List<Phrase>()
                     {
@@ -142,7 +142,8 @@ public class DialogueCenter : MonoBehaviour
                         new Phrase(abraham, "In through your nose, out through your mouth.", 3),
                         new Phrase(officerBen, "Shut up man.", 2)
                     };
-                } else 
+                }
+                else
                 {
                     currentDialogue = new List<Phrase>()
                     {
@@ -155,7 +156,7 @@ public class DialogueCenter : MonoBehaviour
                         new Phrase(officerBen, "You serious?", 1.5f, false)
                     };
                 }
-                
+
                 break;
             case DialogueID.Monologue_Kitchen_ClearSky:
                 currentDialogue = new List<Phrase>() {
@@ -210,7 +211,8 @@ public class DialogueCenter : MonoBehaviour
                     new Phrase(abraham, "", 1.5f, true),
                     new Phrase(abraham, "Welp, worth a shot.", 2.5f, true)
                     };
-                } else
+                }
+                else
                 {
                     currentDialogue = new List<Phrase> {
                     new Phrase(abraham, "So you didn't do it yourself, huh?", 2.0f),
@@ -227,7 +229,7 @@ public class DialogueCenter : MonoBehaviour
                 {
                     currentDialogue = new List<Phrase> {
                         new Phrase(abraham, "Hello again.", 1.5f),
-                        new Phrase(businessSven, "Abraham you know I'm only in your head.", 2.5f), 
+                        new Phrase(businessSven, "Abraham you know I'm only in your head.", 2.5f),
                         new Phrase(businessSven, "You've exhausted our creativity enough.", 2.5f),
                         new Phrase(businessSven, "Go bother some other part of your subconscience.", 2.5f),
                     };
@@ -261,6 +263,7 @@ public class DialogueCenter : MonoBehaviour
                     new Phrase(abraham, "oof.", 1.5f, true, () => { notebook.AddWhatIf(CompromiseID.SvenDidntChooseThisLife); return true; }),
                     new Phrase(abraham, "Can't really blame him for going off the rails.", 2.5f, true)
                 };
+                    talkedtosven = true;
                 }
                 break;
             case DialogueID.Monologue_Outside_BusinessSven:
@@ -284,15 +287,20 @@ public class DialogueCenter : MonoBehaviour
                                                      new Phrase(abraham, "It's seen better days.", 1.5f) };
                 break;
             case DialogueID.Monologue_Outside_BomschSven:
-                currentDialogue = new List<Phrase> { new Phrase(abraham, "I really don't want to talk to that guy.", 1.5f, true)
-                };
+                if (talkedtosven)
+                {
+                    currentDialogue = new List<Phrase> { new Phrase(abraham, "Poor guy.", 1.5f, true) };
+                } else
+                {
+                    currentDialogue = new List<Phrase> { new Phrase(abraham, "Yuck.", 1.5f, true) };
+                }
                 break;
             case DialogueID.Dialogue_BomschSven:
                 if (notebook.can_talk_to_sven)
                 {
                     if (notebook.ContainsNote(NoteID.JoshuaCameWithCompany))
                     {
-                        currentDialogue = new List<Phrase> { 
+                        currentDialogue = new List<Phrase> {
                             new Phrase(abraham, "Hello again.", 1.5f),
                             new Phrase(bomschSven, "I told you everything I know.", 2.5f),
                             new Phrase(bomschSven, "You even scribbled everything down.", 2.5f),
@@ -331,17 +339,17 @@ public class DialogueCenter : MonoBehaviour
                                                      new Phrase(bomschSven, "my head might be spinning with vodka,", 2.0f),
                                                      new Phrase(bomschSven, "but", 1.0f),
                                                      new Phrase(bomschSven, "", 2, true),
-                                                     new Phrase(bomschSven, "...", 2, true),
-                                                     new Phrase(bomschSven, "#", 4.0f, true),
-                                                     new Phrase(bomschSven, "", 1.0f, true),
+                                                     new Phrase(bomschSven, "...", 1, true),
+                                                     new Phrase(bomschSven, "#", 3.0f, true),
                                                      new Phrase(abraham, "Seems like a trustworthy witness to me.", 2.5f, true,
                                                         () => {notebook.AddNote(NoteID.JoshuaCameWithCompany); return false; }) };
                     }
                 }
-                else {
-                    currentDialogue = new List<Phrase> {new Phrase(abraham, "I can't talk to that man", 1.5f),
-                                                        new Phrase(abraham, "He has no place in my perfect world.", 1.5f),
-                                                        new Phrase(abraham, "It's just too much.", 1.5f) };
+                else
+                {
+                    currentDialogue = new List<Phrase> {new Phrase(abraham, "I can't.", 1.0f,true),
+                                                        new Phrase(abraham, "He's filthy and smelly.", 1.5f, true),
+                                                        new Phrase(abraham, "It's just too much.", 1.5f, true) };
                 }
                 break;
             case DialogueID.Monologue_Kitchen_OutWindow:
@@ -350,11 +358,11 @@ public class DialogueCenter : MonoBehaviour
                 break;
             case DialogueID.Monologue_Kitchen_CleanClock:
                 currentDialogue = new List<Phrase> {    new Phrase(abraham, "It shows the correct time.", 1.5f, false),
-                                                        new Phrase(abraham, "It's 1:20 a.m.", 1.5f, true, 
+                                                        new Phrase(abraham, "It's 1:20 a.m.", 1.5f, true,
                                                         () => { FindObjectOfType<ClockGame>().StartMingame(); return false; }) };
                 break;
             case DialogueID.Monologue_Kitchen_DirtyClock:
-                currentDialogue = new List<Phrase> { new Phrase(abraham, "This is interesting.", 1.5f, false, 
+                currentDialogue = new List<Phrase> { new Phrase(abraham, "This is interesting.", 1.5f, false,
                                                      () => { FindObjectOfType<ClockGame>().StartMingame(); return false; }) };
                 break;
             case DialogueID.Monologue_Kitchen_Handgun:
@@ -364,26 +372,34 @@ public class DialogueCenter : MonoBehaviour
             case DialogueID.Monologue_Kitchen_HandgunMissing:
                 currentDialogue = new List<Phrase> { new Phrase(abraham, "There's no weapon!", 1.0f),
                                                      new Phrase(abraham, "If Joshua did this himself", 1.0f),
-                                                     new Phrase(abraham, "It'd still be here.", 1.0f, false, 
+                                                     new Phrase(abraham, "It'd still be here.", 1.0f, false,
                                                         () => { FindObjectOfType<Notebook_Controller>().AddNote(NoteID.IfSuicideGun); return false; }),
                                                      new Phrase(abraham, "I need to tell Ben about this!", 1.5f, true)};
                 break;
             case DialogueID.Monologue_Kitchen_WrongClock:
                 currentDialogue = new List<Phrase> { new Phrase(abraham, "Joshua's clock is not only covered in brain,", 2.0f),
                                                      new Phrase(abraham, "It's also 1 hour too early.", 2.0f, false,
-                                                        () => { notebook.AddNote(NoteID.Clock_Lazy); 
-                                                                notebook.AddWhatIf(CompromiseID.JohuasClockWasAccurate); 
+                                                        () => { notebook.AddNote(NoteID.Clock_Lazy);
+                                                                notebook.AddWhatIf(CompromiseID.JohuasClockWasAccurate);
                                                                 return false; }),
                                                      new Phrase(abraham, "Must have forgotten to change from winter time.", 2.0f)
                                                     };
                 break;
+            case DialogueID.Monologue_Kitchen_Corpse:
+                currentDialogue = new List<Phrase> {new Phrase(abraham, "Shot in the face.", 1.5f),
+                                                        new Phrase(abraham, "Point blank.", 1.5f),
+                                                        new Phrase(abraham, "Either by himself or..", 1.5f) };
+                break;
             default:
-                Debug.Log(id.DisplayName() + ": Dialogue Not yet implemented.");
+                //Debug.Log(id.DisplayName() + ": Dialogue Not yet implemented.");
                 DialogueOver();
                 return;
         }
         currentDialogue[0].Execute();
     }
+
+    private bool talkedtosven = false;
+
     private void DialogueOver()
     {
         currentDialogue = null;
@@ -461,6 +477,7 @@ public enum DialogueID
     Monologue_Kitchen_Handgun = 29,
     Monologue_Kitchen_HandgunMissing = 30,
     Monologue_Kitchen_WrongClock = 31,
+    Monologue_Kitchen_Corpse = 32,
 
 
     Monologue_Outside_BusinessSven = 40,

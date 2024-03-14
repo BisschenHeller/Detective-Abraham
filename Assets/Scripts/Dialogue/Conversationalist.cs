@@ -1,3 +1,4 @@
+using System.Data.SqlTypes;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,7 +25,8 @@ public class Conversationalist : MonoBehaviour
         is_thought = true;
         done_talking = false;
         textField.text = thought;
-        Invoke("DoneTalking", time);
+        
+        Invoke("DoneTalking", time * 1.5f);
         if (!i_talk_with_phone_in_hand)
             textField.color = new Color(textColor.r, textColor.g, textColor.b, initial_alpha * 0.65f);
     }
@@ -36,6 +38,7 @@ public class Conversationalist : MonoBehaviour
         is_thought = false;
         done_talking = false;
         textField.text = sentence;
+        
         textField.color = new Color(textColor.r, textColor.g, textColor.b, initial_alpha);
         
         Invoke("DoneTalking", time*1.5f);
@@ -68,6 +71,12 @@ public class Conversationalist : MonoBehaviour
 
     void Update()
     {
+        /*substring += Time.deltaTime;
+        substring = Mathf.Clamp(substring, 0, currentString.Length);
+        textField.text = currentString.Substring(0, Mathf.RoundToInt(substring));
+        if (currentString != "")
+            Debug.Log("string: \"" + currentString + "\"   oberkante:" + substring + "     Substring:" + currentString.Substring(0, Mathf.RoundToInt(substring)));*/
+        
         anim.SetBool("Talking", !done_talking && !is_thought);
         Vector3 relative_screen_position = ((transform.position - cam.transform.position) + new Vector3(1,1,0)) / 2;
         //textField.rectTransform.pivot = new Vector2(Mathf.Clamp01(relative_screen_position.x), 0);

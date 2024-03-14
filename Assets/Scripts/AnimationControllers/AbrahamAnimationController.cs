@@ -125,7 +125,12 @@ public class AbrahamAnimationController : MonoBehaviour
         {
             transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Min(-0.17f, transform.localPosition.y), -0.001f);
         }
-        
+
+        transform.localPosition = new Vector3(
+            transform.localPosition.x <-5 ? Mathf.Clamp(transform.localPosition.x,-11,-9) : Mathf.Clamp(transform.localPosition.x, -3, 0.58f),
+            transform.localPosition.y,
+            transform.localPosition.z
+            );
         
         transform.parent = backdrop_slices.transform.GetChild(sliceNo);
     }

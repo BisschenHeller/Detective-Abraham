@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/Player Discretion.unity
+    guid: f8e8dd8eebffef94f8cd80603da284b3
+  - enabled: 1
     path: Assets/Scenes/BackupScene.unity
     guid: 436469e47a23ef149aa173b9a3c3dcaa
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: fa3f27d58bb14e9479d4decd5c222baa
   m_configObjects: {}

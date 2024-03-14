@@ -10,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     private float yOffset = 5;
 
     private float initialy;
+    private float initialx;
 
     [SerializeField]
     private float speed = 1;
@@ -18,6 +19,7 @@ public class TutorialManager : MonoBehaviour
     {
         textField = GetComponent<TextMeshProUGUI>();
         initialy = transform.position.y;
+        initialx = transform.position.x;
     }
 
     float progress = 0;
@@ -27,7 +29,7 @@ public class TutorialManager : MonoBehaviour
         progress = 0;
         direction = 1;
         textField.text = text;
-        transform.localPosition = new Vector3(0, yOffset, 0);
+        transform.localPosition = new Vector3(initialx, yOffset, 0);
         textField.color = new Color(1, 1, 1, 0);
     }
 
@@ -37,7 +39,7 @@ public class TutorialManager : MonoBehaviour
         Mathf.Clamp(progress, 0, 1);
         
         textField.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, progress));
-        transform.position = new Vector3(0, initialy + Mathf.Lerp(yOffset, 0, progress), 0);
+        transform.position = new Vector3(initialx, initialy + Mathf.Lerp(yOffset, 0, progress), 0);
     }
 
     public void ClearTutorialText()
