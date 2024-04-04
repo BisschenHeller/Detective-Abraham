@@ -2,7 +2,10 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/EXTERNAL/
+
+# This Line Excludes everything in the EXTERNAL Folder (mostly blender project files)
+# /EXTERNAL/
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
